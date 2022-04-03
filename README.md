@@ -1,8 +1,8 @@
 After spending too much time faffing around trying to use existing tools to generate high quality console screencasts I came across this solution:
 
-Use [`termtosvg`](https://github.com/nbedos/termtosvg).  It's the only thing I've found that compiles and still works.  ttystudio was fantastic but no longer appears to work with any permutation of node and npm I've managed to find.  ascii "enema" renders things on their servers, yuck.  `termtosvg` renders everything locally to individual SVG frames.
+Use [`termtosvg`](https://github.com/nbedos/termtosvg).  It's the only thing I've found that compiles and still works.  [`ttystudio`](https://github.com/chjj/ttystudio/) was fantastic but no longer appears to work with any permutation of node and npm I've managed to find.  ascii "enema" renders things on their servers, yuck.  Meanwhile [`termtosvg`](https://github.com/nbedos/termtosvg) creates beautiful animated SVGs with no external dependencies.  Unfortunately it is next to impossible to easily render animated SVGs as movies. Alternatively [`termtosvg`](https://github.com/nbedos/termtosvg) can render individual SVG frames.
 
-Rendering SVGs to movies or image stills is its own bizarre problem.  Inkscape appears to do the best job for me.  But with some fonts it gets the text alignment all wrong.  So, for each still frame adjust each text node to shift the baseline to the approximately correct position.  Then render everything with a high enough pixel density to create a clear, crisp movie.  And now we have a ton of still images to be rendered…
+Rendering a collection of still SVG frames to movies or raster image stills is its own bizarre problem.  ImageMagick falls completely on its face.  Cairo can do decent job if you want to write tooling for it.  Inkscape appears to do the best job for me.  But with some fonts it seems to get the text alignment all wrong.  So, for each still frame adjust each text node to shift the baseline to the approximately correct position.  Then render everything with a high enough pixel density to create a clear, crisp movie.  And now we have a ton of still images to be rendered…
 
 … by ffmpeg.
 
@@ -11,9 +11,9 @@ This is the second time in the past few years I've gotten stuck trying to solve 
 Dependencies:
 
 * [`termtosvg`](https://github.com/nbedos/termtosvg)
-* `Inkscape` –  If it's not in your path and you're not using macOS set the `INKSCAPE` variable to your path.
-* `ffmpeg`
-* `ruby` – Nokogiri is required and I'm too lazy to setup bundler.  So install it.
+* [Inkscape](https://inkscape.org/) –  If it's not in your path and you're not using macOS set the `INKSCAPE` variable to your path.
+* [`ffmpeg`](https://ffmpeg.org/)
+* [Ruby](https://www.ruby-lang.org/en/) – Nokogiri is required and I'm too lazy to setup bundler.  So install it.
 * [Fira Code](https://github.com/tonsky/FiraCode) – There are other monospaced fonts that should work but the baseline fudge factor will almost certainly have to be adjusted.
 
 The following variables can be set to adjust things to your preferences:
