@@ -23,4 +23,10 @@ The following variables can be set to adjust things to your preferences:
 * `FF_ENCODER` – default is libx264
 * `FF_PIXFMT` - default is yuv420p, you almost certainly don't want to change this
 
+To get a screencast run something along the lines of:
+
+```bash
+termtosvg record [NAME OF YOUR SCREEN CAST GOES HERE].asciicast -c 'bash -c "cd && exec bash -l"'
+```
+
 Now just run: `./record-to-mp4.sh [NAME OF YOUR SCREEN CAST GOES HERE]` and it will fire up a `termtosvg` session, and hopefully leave an high quality mp4 in its wake.  There's minimal error checking and sanitization in all parts of this so use with extreme caution.

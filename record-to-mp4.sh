@@ -40,12 +40,18 @@ FF_PIXFMT=${FF_PIXFMT:-"yuv420p"}
 INKSCAPE=$(which inkscape)
 INKSCAPE=${INKSCAPE:-"/Applications/Inkscape.app/Contents/MacOS/inkscape"}
 
-for i in "${CAST_BASE}"/termtosvg_*.svg; do
-  ./transform.rb "${i}"
-done
+termtosvg render -s "${OUT_CAST}" "${CAST_BASE}"
+
+./get-resolution.rb "${CAST_BASE}" "${INK_DPI}" || exit 1
+
+if [ "x${FORCE}" != "xFORCE" ]; then
+    for i in "${CAST_BASE}"/termtosvg_*.svg; do
+    ./transform.rb "${i}"
+    done
+fi
 
 # This is expected to spit out lots of warnings.
-"${INKSCAPE}" --export-type="png" --export-dpi="${INK_DPI}" "${CAST_BASE}"/update-*.svg
+"${INKSCAPE}" --export-type="png" --export-dpi="${INK_DPI}" --export-area-drawing "${CAST_BASE}"/update-*.svg
 
 ffmpeg -hide_banner -framerate "${FF_IN_FRAMERATE}" -i "${CAST_BASE}/update-%05d.png" -c:v "${FF_ENCODER}" -r 30 -pix_fmt "${FF_PIXFMT}" "${OUT_MP4}"
 
